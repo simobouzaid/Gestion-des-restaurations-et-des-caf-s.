@@ -21,3 +21,5 @@ route::apiResource('product',productController::class)->middleware('auth:sanctum
 route::get('/serveur',[serveurController::class,'index'])->middleware('auth:sanctum');
 route::post('/serveur',[serveurController::class,'store'])->middleware('auth:sanctum');
 route::delete('/serveur/{id}',[serveurController::class,'destroy'])->middleware('auth:sanctum');
+route::get('/serveur/{id}',[serveurController::class,'show'])->middleware('auth:sanctum');
+route::put('/serveur/{id}',[serveurController::class,'update'])->middleware('auth:sanctum');

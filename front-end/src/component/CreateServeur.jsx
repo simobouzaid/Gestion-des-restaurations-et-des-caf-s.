@@ -34,7 +34,7 @@ function CreateServeur() {
                 })
             console.log(res.data)
             setl(false)
-         nav('/Serveur')
+         nav('/Server')
         } catch (error) {
             alert(error)
         }finally{

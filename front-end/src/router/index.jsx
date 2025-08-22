@@ -10,7 +10,8 @@ import CreateProduct from './../pages/CreateProduct';
 import Product from './../pages/Product';
 import Deconnection from './../pages/deconnection';
 import ProductUpdate from './../component/productUpdate';
-import CreateServeur from './../component/createServeur';
+import CreateServeur from './../component/CreateServeur';
+import ServeurUpdate from '../component/ServeurUpdate';
 
 
 
@@ -32,10 +33,7 @@ export const router = createBrowserRouter([
                 path:'/Comand',
                 element:<Comand/>
             }
-            ,{
-                path:'/Server',
-                element:<Server/>
-            }
+           
             ,{
                 path:'/Server',
                 element:<Server/>
@@ -48,8 +46,11 @@ export const router = createBrowserRouter([
                 path:'/productUpdate/:id',
                 element:<ProductUpdate/>
             },{
-                path:'createServeur',
+                path:'/createServeur',
                 element:<CreateServeur/>
+            },{
+                path:'/updateServeur/:id',
+                element:<ServeurUpdate/>
             }
         ]
     } ,{
