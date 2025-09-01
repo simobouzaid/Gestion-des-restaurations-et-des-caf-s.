@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthSvrController;
+use App\Http\Controllers\CommandController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\serveurController;
+use App\Http\Controllers\svr\serviceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -23,3 +26,8 @@ route::post('/serveur',[serveurController::class,'store'])->middleware('auth:san
 route::delete('/serveur/{id}',[serveurController::class,'destroy'])->middleware('auth:sanctum');
 route::get('/serveur/{id}',[serveurController::class,'show'])->middleware('auth:sanctum');
 route::put('/serveur/{id}',[serveurController::class,'update'])->middleware('auth:sanctum');
+route::post('/loginSvr',[AuthSvrController::class,'LoginSvr']);
+route::get('/produits/{code}/{type}',[serviceController::class,'getProduit']);
+route::post('/getCommande',[serviceController::class,'getCommande']);
+route::post('/Commande',[CommandController::class,'Store']);
+route::delete('/Commande/{id}/{code}',[CommandController::class,'destroy']);

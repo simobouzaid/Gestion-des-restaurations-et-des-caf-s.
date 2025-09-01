@@ -73,6 +73,7 @@ class ProductController extends Controller
                 'prix' => $validated['prix'],
                 'path' => $path,
                 'user_id' => Auth::id()
+                ,'type' => $request->type
             ]);
 
             Log::info('Product created successfully', ['product_id' => $produit->id]);

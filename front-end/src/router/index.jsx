@@ -12,6 +12,8 @@ import Deconnection from './../pages/deconnection';
 import ProductUpdate from './../component/productUpdate';
 import CreateServeur from './../component/CreateServeur';
 import ServeurUpdate from '../component/ServeurUpdate';
+import LoginSvr from './../pages/Serveur/LoginSvr';
+import HomeService from '../pages/Serveur/HomeService';
 
 
 
@@ -52,6 +54,7 @@ export const router = createBrowserRouter([
                 path:'/updateServeur/:id',
                 element:<ServeurUpdate/>
             }
+         
         ]
     } ,{
         path: '/login',
@@ -65,7 +68,14 @@ export const router = createBrowserRouter([
         path: '/deconnection',
         element: <Deconnection />
 
-    }
+    },   {
+                path:'/LoginSvr',
+                element:<LoginSvr/>
+            }
+    ,   {
+                path:'/HomeService',
+                element:<HomeService/>
+            }
 
 
 ]);

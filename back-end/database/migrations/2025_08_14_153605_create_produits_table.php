@@ -14,8 +14,9 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->double('prix');
-            $table->integer('user_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('path');
+            $table->enum('type',['tacos','pizza','the','caffe','boisson','autre']);
             $table->softDeletes();
             $table->timestamps();
         });

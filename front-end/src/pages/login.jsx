@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
@@ -8,15 +8,15 @@ axios.defaults.baseURL = 'http://127.0.0.1:8000';
 const Login = () => {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(false);
     const nav = useNavigate();
         document.title='login'
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError(null);
 
         const email = emailRef.current.value.trim();
         const password = passwordRef.current.value.trim();
@@ -24,15 +24,17 @@ const Login = () => {
         try {
 
             const rs = await axios.post('/api/login', { email, password });
-            localStorage.setItem('token', rs.data.access_token)
-
-
+            
             if (rs.status == 200 || rs.status == 204) {
-
-                nav('/');
+                if (rs.data.status) {
+                    nav('/');
+                    localStorage.setItem('token', rs.data.access_token)
+                }
+                if (!rs.data.status) {
+                    setError(true)
+                }
             }
         } catch (err) {
-            console.error('Login error:', err);
             setError(err.response?.data?.message || 'Login failed. Please try again.');
         } finally {
             setLoading(false);
@@ -58,8 +60,8 @@ const Login = () => {
 
         <div className="  max-w-md mx-auto mt-40 p-6 bg-white rounded-lg shadow-md">
             <h2 className="  text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
-            {error && (
-                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">{error}</div>
+            {error == true &&(
+                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">error de la connexion email ou mots de pass incorect </div>
             )}
             <form className="  space-y-4" onSubmit={handleLogin}>
                 <div>
@@ -74,6 +76,7 @@ const Login = () => {
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
                 </div>
+            <Link to={'/LoginSvr'} className='text-center '> login  serveur </Link>
             </form>
         </div>
     </>

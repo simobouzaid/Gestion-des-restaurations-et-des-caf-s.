@@ -30,7 +30,7 @@ function ServeurUpdate() {
         }
 
         show()
-    },[])
+    },[token,id])
     const handlSubmit = async (e) => {
        setl(true)
         e.preventDefault()
@@ -63,7 +63,7 @@ function ServeurUpdate() {
     onSubmit={handlSubmit} 
     className="flex flex-wrap items-center gap-4 w-full max-w-3xl"
   >
-    
+
     <input
       type="text"
       value={serveur.nameServeur}

@@ -109,7 +109,7 @@ const Product = () => {
           console.log(`Product ${produit.id} image_url:`, produit.image_url);
           console.log(`Product ${produit.id} full URL:`, getImageUrl(produit));
         });
-
+         console.log(response.data)
         setProduits(response.data);
         setError(null);
       } catch (error) {

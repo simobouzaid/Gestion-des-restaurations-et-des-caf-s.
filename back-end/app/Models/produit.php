@@ -12,7 +12,7 @@ class Produit extends Model
 
     use SoftDeletes,HasFactory;
 
-    protected $fillable = ['name', 'prix', 'path', 'user_id'];
+    protected $fillable = ['name', 'prix', 'path', 'user_id','type'];
 
     protected $appends = ['image_url'];
 
@@ -43,5 +43,10 @@ class Produit extends Model
     public function scopeActive($query)
     {
         return $query->whereNotNull('name');
+    }
+
+    public function commande(){
+        return $this->hasMany(Produit::class) ;
+    
     }
 }
