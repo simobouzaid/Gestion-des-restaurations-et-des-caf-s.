@@ -25,10 +25,10 @@ const LoginSvr = () => {
                 code:codeSvr
             }); 
             
-            if(response.data.status){
-                localStorage.setItem('codeSvr',codeSvr)
-          
+            if(response.data.status){          
                  localStorage.setItem('tokenSvr',response.data.tokenSvr)
+                 localStorage.setItem('idSvr',response.data.serveur.id)
+                 localStorage.setItem('nameSvr',response.data.serveur.name)
             nav('/HomeService')
             }else{
                 setError(response.data.msg);
@@ -62,7 +62,7 @@ const LoginSvr = () => {
                 {error && <p className='text-red-600 text-center '>
                     {error}
                 </p>}
-                <input type="number" placeholder='code de serveur' className={error ? 'text-center border-2 m-3 text-xl p-3 border-red-600' : 'text-center border-2 m-3 text-xl p-3 '} ref={code} />
+                <input type="password" placeholder='code de serveur' className={error ? 'text-center border-2 m-3 text-xl p-3 border-red-600' : 'text-center border-2 m-3 text-xl p-3 '} ref={code} />
                 <input type="submit" className='bg-blue-600 text-white p-2 hover:bg-blue-700 transition duration-200 rounded-xl hover:rounded-3xl' />
                 <Link to={'/login'} className='text-center m-3 hover:text-xl hover:text-blue-400'> login Admin</Link>
             </form>

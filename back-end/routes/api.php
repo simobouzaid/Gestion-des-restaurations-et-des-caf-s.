@@ -30,10 +30,10 @@ route::get('/chart',[chartController::class ,'chartHome'])->middleware('auth:san
 
 route::post('/loginSvr',[AuthSvrController::class,'LoginSvr']);
 Route::middleware(App\Http\Middleware\AuthServeurs::class)->group(function () {
-    Route::get('/produits/{code}/{type}', [ServiceController::class, 'getProduit'])->name('produit.show');
+    Route::get('/produits/{idSvr}/{type}', [ServiceController::class, 'getProduit'])->name('produit.show');
     Route::post('/getCommande', [ServiceController::class, 'getCommande'])->name('commande.fetch');
     Route::post('/Commande', [CommandController::class, 'store'])->name('commande.store');
-    Route::delete('/Commande/{id}/{code}', [CommandController::class, 'destroy'])->name('commande.destroy');
+    Route::delete('/Commande/{id}/{idSvr}', [CommandController::class, 'destroy'])->name('commande.destroy');
     Route::put('/validerCommande', [ServiceController::class, 'validerCommande'])->name('commande.valider');
 });
   

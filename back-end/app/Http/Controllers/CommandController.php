@@ -21,7 +21,7 @@ class CommandController extends Controller
      */
     public function store(Request $request)
     {
-        $id = serveur::where('code', $request->code)->first();
+        $id = serveur::where('id', $request->idSvr)->first();
         Command::create([
             'user_id' => $id->user_id,
             'serveur_id' => $id->id,
@@ -51,8 +51,8 @@ return response()->json(['status'=>true]);
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id,$code)
-    {             $serveur =serveur::where('code',$code)->first();
+    public function destroy($id,$idSvr)
+    {             $serveur =serveur::where('id',$idSvr)->first();
               Command::where('produit_id', $id)->where('status','nonValider')->where('serveur_id',$serveur->id)->delete();
               return response()->json(['status'=>true]);
     }

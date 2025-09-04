@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Loading from './../../component/Loading';
-import Alert from '../../component/AlertSuccess';
+import AlertSuccess from './../../component/AlertSuccess';
 document.title = 'home service'
 
 const HomeService = () => {
   const nav = useNavigate()
   const [produits, setproduit] = useState([]);
   const [cmd, setCommande] = useState([]);
-  const code = localStorage.getItem('codeSvr');
+  const idSvr = localStorage.getItem('idSvr');
+  const [nameOfServeur,setNameOfServeur]= useState()
   const [loading, setLoagin] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const [loadingCommade, setLoadingCommande] = useState(true);
@@ -21,10 +22,9 @@ const HomeService = () => {
   //partie de produit
   const getProduit = async (type) => {
     setLoagin(true)
-    const response = await axios.get(`/api/produits/${code}/${type}`, {
+    const response = await axios.get(`/api/produits/${idSvr}/${type}`, {
       headers: {
-        Authorization: localStorage.getItem('tokenSvr')
-      }
+  Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`      }
     })
     if (response.data.status) {
       setproduit(response.data.produits)
@@ -43,11 +43,10 @@ const HomeService = () => {
   const commander = async (id) => {
     setLoadingCommande(true)
     const response = await axios.post('/api/Commande', {
-      id: id, code: code
+      id: id, idSvr: idSvr
     }, {
       headers: {
-        Authorization: localStorage.getItem('tokenSvr')
-      }
+  Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`      }
     })
     setLoadingCommande(false)
     console.log(response.data)
@@ -55,9 +54,9 @@ const HomeService = () => {
   }
   const validerCommande = async () => {
     setLoadingCommande(true)
-    const response = await axios.put('/api/validerCommande', { code: code }, {
+    const response = await axios.put('/api/validerCommande', { idSvr: idSvr }, {
       headers: {
-        Authorization: localStorage.getItem('tokenSvr')
+         Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`
       }
     });
     console.log(response.data)
@@ -75,31 +74,30 @@ const HomeService = () => {
 
 
   useEffect(() => {
+  setNameOfServeur(localStorage.getItem('nameSvr'));
 
     const getCommand = async () => {
       // setLoadingCommande(true)
       const response = await axios.post('/api/getCommande', {
-        code: code
+        idSvr: idSvr
       }, {
         headers: {
-          Authorization: localStorage.getItem('tokenSvr')
-        }
+  Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`        }
       });
-
+      console.log(response.data)
       setCommande(response.data || []);
       setLoadingCommande(false)
 
     }
     getCommand();
 
-  }, [loading, code, loadingCommade])
+  }, [loading, idSvr, loadingCommade])
 
   const suprimmerCommand = async (idProduit) => {
     setLoadingCommande(true)
-    const response = await axios.delete(`/api/Commande/${idProduit}/${code}`, {
+    const response = await axios.delete(`/api/Commande/${idProduit}/${idSvr}`, {
       headers: {
-        Authorization: localStorage.getItem('tokenSvr')
-      }
+  Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`      }
     })
 
     console.log(response.data)
@@ -111,21 +109,22 @@ const HomeService = () => {
     nav('/LoginSvr')
   }
   return (
-    <>
+    <> 
+    <h2 className='text-center text-2xl'>bonjour : {nameOfServeur}</h2>
       <div className='flex h-screen'>
 
-        <div className='w-1/2'>
-          <h2 className='text-center text-2xl p-2 m-2'>les commands</h2>
+        <div className='w-1/2 border-4'>
+          <h2 className='text-center  text-2xl p-2 m-2'>les commands</h2>
           {cmd.length !== 0 ?
 
-            <button className='bg-emerald-600 text-xl text-white px-3 py-1 rounded-xl ml-2' onClick={validerCommande}> valider la commande</button> :
+            <button className='bg-emerald-600 text-xl text-white px-3 py-1 rounded-xl ml-2 shadow-xl hover:shadow-2xl transform hover:scale-106 transition duration-300 ' onClick={validerCommande}> valider la commande</button> :
             <p className='mt-50 text-center'>
 
 
               {showAlert && (
 
 
-                <Alert props={' ✅ la commande est valider'} color={'red'} />
+                <AlertSuccess props={' ✅ la commande est valider'} color={'red'} />
 
               )}
 

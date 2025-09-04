@@ -15,9 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         // تسجّل middleware route
-        $middleware->alias([
-            'auth.serveurs' => AuthServeurs::class,
-        ]);
+        // $middleware->alias([
+        //     'auth.serveurs' => AuthServeurs::class,
+        // ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

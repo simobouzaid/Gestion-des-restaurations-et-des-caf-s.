@@ -11,7 +11,7 @@ class AuthSvrController extends Controller
     public function loginSvr(Request $r)
     {
         try {
-            $serveur = serveur::where('code', $r->code)->first();
+            $serveur = serveur::where('code', $r->code)->first(['id', 'name', 'user_id']);
             if ($serveur) {
 
 
@@ -33,6 +33,25 @@ class AuthSvrController extends Controller
             return response()->json($th);
         }
     }
+    public function logOutServeur(Request $request)
+    {          
+        try {
+            //code...
+            //throw $th;
+            $auth = $request->header('Authorization');
+            $token = str_replace('Bearer ', '', $auth);
+            $response = AuthServeur::where('tokenSvr', $token)->delete();
+            if ($response) {
+                return response()->json(['status'=>true]);
+            }
+        } catch (\Throwable $th) {
+            
+              return response()->json(['status'=>true ,'msg' => $th]);
+        }
 
+
+
+
+    }
 
 }

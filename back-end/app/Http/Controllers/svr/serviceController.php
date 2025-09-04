@@ -12,10 +12,10 @@ class serviceController extends Controller
 {
 
 
-  public function getProduit($code, $type)
+  public function getProduit($idSvr, $type)
   {
     try {
-      $id = serveur::where('code', $code)->first();
+      $id = serveur::where('id', $idSvr)->first();
 
       $produit = Produit::where('user_id', $id->user_id)->where('type', $type)->get();
       return response()->json([
@@ -31,10 +31,9 @@ class serviceController extends Controller
   public function getCommande(Request $r)
   {
     try {
-      $id = serveur::where('code', $r->code)->first();
-
+              
     $commandes=  Command::select('produit_id', DB::raw('count(*) as total'))
-    ->where('serveur_id', $id->id)
+    ->where('serveur_id', intval($r->idSvr))
     ->where('status', 'nonValider')
     ->groupBy('produit_id')
     ->with('getProduct:id,name,prix,type,path') 
@@ -51,9 +50,8 @@ class serviceController extends Controller
 
 public function validerCommande(Request $request){
 try {
-        $id = serveur::where('code', $request->code)->first();
 
-  Command::where('serveur_id',$id->id)->where('status','nonValider')->update( ['status'=>'valider']);
+  Command::where('serveur_id',$request->idSvr)->where('status','nonValider')->update( ['status'=>'valider']);
   //code...
   return response()->json(['status'=>true]);
 } catch (\Throwable $th) {
