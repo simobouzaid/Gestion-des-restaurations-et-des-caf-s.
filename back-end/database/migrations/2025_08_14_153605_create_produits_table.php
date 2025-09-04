@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('path');
             $table->enum('type',['tacos','pizza','the','caffe','boisson','autre']);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

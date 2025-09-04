@@ -27,8 +27,8 @@ const LoginSvr = () => {
             
             if(response.data.status){
                 localStorage.setItem('codeSvr',codeSvr)
-
-                 
+          
+                 localStorage.setItem('tokenSvr',response.data.tokenSvr)
             nav('/HomeService')
             }else{
                 setError(response.data.msg);

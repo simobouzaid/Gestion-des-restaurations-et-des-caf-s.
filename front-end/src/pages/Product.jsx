@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import CreateProduct from './CreateProduct';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
@@ -9,11 +9,16 @@ const Product = () => {
   document.title = 'les produits'
 
   const [produits, setProduits] = useState([]);
+  const nav = useNavigate()
+  const [auth, setAuth] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [suppression, setSuppression] = useState(null);
 
   const token = localStorage.getItem('token');
+if (!token) {
+          nav('/login')
+}
 
   const getImageUrl = (produit) => {
     if (!produit.image_url) return null;
@@ -63,7 +68,7 @@ const Product = () => {
       if (error.response) {
         console.error('Response data:', error.response.data);
         console.error('Response status:', error.response.status);
-
+        setAuth(error.response.status)
         if (error.response.status === 401) {
           errorMessage = 'Session expirée. Veuillez vous reconnecter.';
         } else if (error.response.status === 404) {
@@ -87,6 +92,7 @@ const Product = () => {
       if (!token) {
         setError('Token d\'authentification introuvable');
         setLoading(false);
+
         return;
       }
 
@@ -109,11 +115,12 @@ const Product = () => {
           console.log(`Product ${produit.id} image_url:`, produit.image_url);
           console.log(`Product ${produit.id} full URL:`, getImageUrl(produit));
         });
-         console.log(response.data)
+        console.log(response.data)
         setProduits(response.data);
         setError(null);
       } catch (error) {
         console.error('Erreur lors du chargement des produits:', error);
+        setAuth(error.response.status)
 
         if (error.response) {
           console.error('Error response:', error.response.data);
@@ -123,7 +130,8 @@ const Product = () => {
 
           if (error.response.status === 401) {
             setError('Session expirée. Veuillez vous reconnecter.');
-        
+            // setAuth();
+
           } else if (error.response.status === 500) {
             setError(`Erreur serveur: ${error.response.data.message || 'Erreur interne du serveur'}`);
           } else {
@@ -148,6 +156,11 @@ const Product = () => {
     setError(null);
   };
 
+
+
+  if (auth === 401) {
+    nav('/login')
+  }
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -197,7 +210,7 @@ const Product = () => {
         >
           Ajouter un produit
         </Link>
-     
+
       </div>
 
       {produits.length === 0 ? (
@@ -218,7 +231,7 @@ const Product = () => {
             return (
               <div
                 key={produit.id}
-                className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-300 bg-white"
+                className="border rounded-lg p-4 shadow-sm hover:shadow-2xl transform hover:scale-110   transition-all duration-300 bg-white "
               >
                 <div className="h-40 flex items-center justify-center bg-gray-100 mb-3 rounded">
                   {imageUrl ? (

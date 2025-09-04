@@ -230,11 +230,11 @@ class ProductController extends Controller
                 ], 404);
             }
 
-            // Delete associated image file if exists
-            // if ($produit->path && Storage::disk('public')->exists($produit->path)) {
-            //     Storage::disk('public')->delete($produit->path);
-            //     Log::info('Image file deleted: ' . $produit->path);
-            // }
+ 
+            if ($produit->path && Storage::disk('public')->exists($produit->path)) {
+                Storage::disk('public')->delete($produit->path);
+                Log::info('Image file deleted: ' . $produit->path);
+            }
 
             // Delete the product
             $produit->delete();

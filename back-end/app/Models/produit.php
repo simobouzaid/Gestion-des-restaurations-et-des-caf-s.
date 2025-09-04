@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Produit extends Model
 {
 
-    use SoftDeletes,HasFactory;
+    use HasFactory;
 
     protected $fillable = ['name', 'prix', 'path', 'user_id','type'];
 

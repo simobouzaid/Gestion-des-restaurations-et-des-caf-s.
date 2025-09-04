@@ -10,8 +10,13 @@ class serveurController extends Controller
 {
     public function index()
     {
-        $serveur = serveur::where('user_id', Auth::id())->get();
-        return response()->json(['serveurs'=>$serveur]);
+        try {
+            //code...
+            $serveur = serveur::where('user_id', Auth::id())->get();
+            return response()->json(['serveurs' => $serveur]);
+        } catch (\Throwable $th) {
+            return response($th);
+        }
     }
 
     public function store(Request $r)
@@ -44,7 +49,7 @@ class serveurController extends Controller
             'code' => $r->code,
             'user_id' => Auth::id()
         ]);
-        return response()->json(['msg'=>'avec success']);
+        return response()->json(['msg' => 'avec success']);
 
     }
 

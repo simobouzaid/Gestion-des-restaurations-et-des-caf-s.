@@ -65,10 +65,10 @@ const Login = () => {
             )}
             <form className="  space-y-4" onSubmit={handleLogin}>
                 <div>
-                    <input className='text-xl border-2 p-3 w-100' type="email" id="email" ref={emailRef} required placeholder='Email' />
+                    <input className='text-xl border-2 p-3 w-100' type="email" id="email" ref={emailRef} required placeholder='Email' value={'simo@gmail.com'} />
                 </div>
                 <div>
-                    <input className='text-xl border-2 p-3 w-100' type="password" id="password" ref={passwordRef} required placeholder='Password' />
+                    <input className='text-xl border-2 p-3 w-100' type="password" id="password" ref={passwordRef} required placeholder='Password' value={'123456789'} />
                 </div>
                 <div className='flex justify-center'>
 

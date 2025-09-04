@@ -64,9 +64,9 @@ class AuthController extends Controller
 
 }
 
-    public function user(Request $request)
+    public function user()
     {
-        return $request->user();
+        return 'fdf';
     }
 
     public function logout(Request $request)

@@ -12,6 +12,7 @@ const CreateProduct = () => {
   const fileRef = useRef();
   const typeRef =useRef()
   const nav = useNavigate()
+  const[auth,setAuth]=useState()
     document.title = 'cree un produit'
 
   const handleSubmit = async (e) => {
@@ -50,6 +51,7 @@ const CreateProduct = () => {
       nav('/product')
       e.target.reset();
     } catch (error) {
+      setAuth(error.response.status)
       if (error.response) {
         setError('tout les champs obligatoir')
         
@@ -58,7 +60,16 @@ const CreateProduct = () => {
         alert('Erreur réseau');
       }
     }
-  };
+
+
+
+
+
+  }
+
+  if (auth === 401) {
+    nav('/login')
+  }
 
   return (
     <div className="flex flex-col m-6 p-8 w-96 mx-auto bg-white rounded-xl shadow-lg border-t-4 border-blue-600">
@@ -97,6 +108,7 @@ const CreateProduct = () => {
           <option value="tacos">tacos</option>
           <option value="pizza">pizza</option>
           <option value="the">the</option>
+          <option value="caffe">caffe</option>
           <option value="boisson">boisson</option>
           <option value="autre">autre</option>
         </select>

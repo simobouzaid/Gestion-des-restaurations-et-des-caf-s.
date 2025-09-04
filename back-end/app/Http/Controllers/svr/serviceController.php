@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class serviceController extends Controller
 {
+
+
   public function getProduit($code, $type)
   {
     try {
@@ -44,6 +46,24 @@ class serviceController extends Controller
            return response()->json($th);
     }
   }
+
+
+
+public function validerCommande(Request $request){
+try {
+        $id = serveur::where('code', $request->code)->first();
+
+  Command::where('serveur_id',$id->id)->where('status','nonValider')->update( ['status'=>'valider']);
+  //code...
+  return response()->json(['status'=>true]);
+} catch (\Throwable $th) {
+  return response()->json(['status'=>false,'errore'=>$th]);
+  //throw $th;
+}
+  
+}
+
+
 
 
 
