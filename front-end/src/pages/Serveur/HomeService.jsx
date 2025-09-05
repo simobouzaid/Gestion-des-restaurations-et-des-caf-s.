@@ -124,7 +124,7 @@ const HomeService = () => {
               {showAlert && (
 
 
-                <AlertSuccess props={' ✅ la commande est valider'} color={'red'} />
+                <AlertSuccess value=' ✅ la commande est valider'  />
 
               )}
 

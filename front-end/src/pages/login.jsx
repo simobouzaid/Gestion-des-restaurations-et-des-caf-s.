@@ -35,24 +35,24 @@ const Login = () => {
                 }
             }
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed. Please try again.');
+            setError(err.response.data || 'Login failed. Please try again.');
         } finally {
             setLoading(false);
         }
     };
 
-    if (loading) {
-  return(
+//     if (loading) {
+//   return(
           
-          <div className=" mt-40 flex justify-center items-center h-64">
-          <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p>login...</p>
-          </div>
-          </div>
+//           <div className=" mt-40 flex justify-center items-center h-64">
+//           <div className="text-center">
+//           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
+//           <p>login...</p>
+//           </div>
+//           </div>
           
-        )  
-    }
+//         )  
+//     }
 
     return (<>
   
@@ -61,7 +61,7 @@ const Login = () => {
         <div className="  max-w-md mx-auto mt-40 p-6 bg-white rounded-lg shadow-md">
             <h2 className="  text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
             {error == true &&(
-                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">error de la connexion email ou mots de pass incorect </div>
+                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">{error} </div>
             )}
             <form className="  space-y-4" onSubmit={handleLogin}>
                 <div>

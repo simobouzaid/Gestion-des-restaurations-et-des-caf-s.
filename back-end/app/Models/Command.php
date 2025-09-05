@@ -18,4 +18,7 @@ class Command extends Model
     public function getProduct(){
         return $this->belongsTo(Produit::class,'produit_id');
     }
+    public function getServeur(){
+        return $this->belongsTo(serveur::class,'serveur_id');
+    }
 }

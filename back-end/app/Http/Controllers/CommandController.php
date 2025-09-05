@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Command;
 use App\Models\serveur;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommandController extends Controller
 {
@@ -13,7 +14,15 @@ class CommandController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $commands = Command::with(['getProduct', 'getServeur'])
+                ->where('user_id', Auth::id())
+                ->get();
+            return response()->json($commands);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json($th);
+        }
     }
 
     /**
@@ -28,7 +37,7 @@ class CommandController extends Controller
             'produit_id' => $request->id,
             'status' => 'nonValider'
         ]);
-return response()->json(['status'=>true]);
+        return response()->json(['status' => true]);
 
     }
 
@@ -51,9 +60,10 @@ return response()->json(['status'=>true]);
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id,$idSvr)
-    {             $serveur =serveur::where('id',$idSvr)->first();
-              Command::where('produit_id', $id)->where('status','nonValider')->where('serveur_id',$serveur->id)->delete();
-              return response()->json(['status'=>true]);
+    public function destroy($id, $idSvr)
+    {
+        $serveur = serveur::where('id', $idSvr)->first();
+        Command::where('produit_id', $id)->where('status', 'nonValider')->where('serveur_id', $serveur->id)->delete();
+        return response()->json(['status' => true]);
     }
 }

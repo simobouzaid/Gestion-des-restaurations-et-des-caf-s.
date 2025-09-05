@@ -15,6 +15,7 @@ Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'user'])
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/commande', [CommandController::class, 'index']);
 // Route::middleware('auth:sanctum')->post('/produit', [productController::class, 'store']);
 // Route::middleware('auth:sanctum')->get('/IndexProduct', [productController::class, 'index']);
 route::apiResource('product',productController::class)->middleware('auth:sanctum');

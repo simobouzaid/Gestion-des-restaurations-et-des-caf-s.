@@ -14,7 +14,14 @@ const CreateProduct = () => {
   const nav = useNavigate()
   const[auth,setAuth]=useState()
     document.title = 'cree un produit'
+  const ErrorPrix =()=>{
+    if (prixRef.current.value < 0) {
+      setError('le prix < 0')
+    }else{
 
+      setError(null)
+    }
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -74,7 +81,7 @@ const CreateProduct = () => {
   return (
     <div className="flex flex-col m-6 p-8 w-96 mx-auto bg-white rounded-xl shadow-lg border-t-4 border-blue-600">
       <h1 className="text-center text-2xl font-semibold text-blue-700 mb-6">Créer un produit</h1>
-      <div className='border bg-red-200 border-red-200 text-xl text-center p-2 my-2'>{error &&     error}</div>
+     {error && <div className='border bg-red-200 border-red-200 text-xl text-center p-2 my-2'>     {error}</div>}
       <form onSubmit={handleSubmit} className="space-y-4">
 
         <input
@@ -91,6 +98,7 @@ const CreateProduct = () => {
           step="0.01"
           placeholder="Prix"
           ref={prixRef}
+          onChange={ErrorPrix}
           required
           className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 text-gray-700"
         />
