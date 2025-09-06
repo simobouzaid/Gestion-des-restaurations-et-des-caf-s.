@@ -7,6 +7,8 @@ function ServeurUpdate() {
   const { id } = useParams()
   const nav = useNavigate()
   const [showAlert, setShowAlert] = useState(false)
+  const [error, setError] = useState()
+  const [length, setLength] = useState()
   const [serveur, setServeur] = useState({
     nameServeur: '', code: ''
   })
@@ -34,21 +36,34 @@ function ServeurUpdate() {
     show()
   }, [token, id])
   const handlSubmit = async (e) => {
+
+
+  
+
+
+
     setl(true)
     e.preventDefault()
     console.log(serveur.nameServeur, '', serveur.code)
-    await axios.put(`/api/serveur/${id}`, {
-      name: serveur.nameServeur,
-      code: serveur.code
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    setl(false)
-    setShowAlert(true);
+    try {
+      await axios.put(`/api/serveur/${id}`, {
+        name: serveur.nameServeur,
+        code: serveur.code
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 1000);
       setTimeout(() =>     nav('/Server'), 2000);
+    } catch (error) {
+     setError(error) 
+    }finally{
+
+      setl(false)
+    }
+   
       
   }
 
@@ -64,24 +79,43 @@ function ServeurUpdate() {
       {showAlert &&  <AlertSuccess value={'mise ajour avec success'} ></AlertSuccess>}
       <h2 className="text-xl font-semibold text-gray-800">Mise à jour du serveur</h2>
 
+      <p className='text-red-500 text-center px-3  rounded-xl '> {error && (error)  }   {  length > 0  && '>'+length } </p>
       <form
         onSubmit={handlSubmit}
         className="flex flex-wrap items-center gap-4 w-full max-w-3xl"
       >
-
         <input
           type="text"
           value={serveur.nameServeur}
-          onChange={(e) => setServeur({ ...serveur, nameServeur: e.target.value })}
+          onChange={(e) => {setServeur( { ...serveur, nameServeur: e.target.value} )
+        if (serveur.nameServeur.length === 0) {
+          setError('error le champ et vite')
+        }
+        
+        
+        
+        }}
           placeholder="Nom du serveur"
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent flex-grow min-w-48"
         />
 
 
         <input
-          type="number"
+          type="password"
           value={serveur.code}
-          onChange={(e) => setServeur({ ...serveur, code: e.target.value })}
+          onChange={(e) => {setServeur({ ...serveur, code: e.target.value })
+          if (serveur.code.length <= 12) {
+            setError('le code moin 12 ')
+            setLength(   serveur.code.length); 
+          }else{
+               setError(null )
+            setLength(   null); 
+          }
+
+     
+        
+        
+        }}
           placeholder="Code du serveur"
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-36"
         />
