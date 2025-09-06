@@ -44,6 +44,7 @@ class AuthSvrController extends Controller
             if ($response) {
                 return response()->json(['status'=>true]);
             }
+            return response()->json(['status'=>false]);
         } catch (\Throwable $th) {
             
               return response()->json(['status'=>true ,'msg' => $th]);

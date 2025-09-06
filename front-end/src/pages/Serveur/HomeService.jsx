@@ -10,21 +10,33 @@ const HomeService = () => {
   const [produits, setproduit] = useState([]);
   const [cmd, setCommande] = useState([]);
   const idSvr = localStorage.getItem('idSvr');
-  const [nameOfServeur,setNameOfServeur]= useState()
+  const [nameOfServeur, setNameOfServeur] = useState()
   const [loading, setLoagin] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const [loadingCommade, setLoadingCommande] = useState(true);
-  const logout = () => {
-    localStorage.removeItem('codeSvr');
-    localStorage.removeItem('tokenSvr');
-    nav('/LoginSvr')
+  const logout = async () => {
+
+    const response = await axios.get('/api/logOutServeur', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`
+      }
+    })
+    if (response.data?.status) {
+      localStorage.removeItem('codeSvr');
+      localStorage.removeItem('tokenSvr');
+
+      nav('/LoginSvr')
+    } else {
+      alert('errore')
+    }
   }
   //partie de produit
   const getProduit = async (type) => {
     setLoagin(true)
     const response = await axios.get(`/api/produits/${idSvr}/${type}`, {
       headers: {
-  Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`      }
+        Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`
+      }
     })
     if (response.data.status) {
       setproduit(response.data.produits)
@@ -32,9 +44,6 @@ const HomeService = () => {
     }
 
 
-
-    // setShowAlert(true);
-    // setTimeout(() => setShowAlert(false), 3000);
     setLoagin(false)
   }
 
@@ -46,7 +55,8 @@ const HomeService = () => {
       id: id, idSvr: idSvr
     }, {
       headers: {
-  Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`      }
+        Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`
+      }
     })
     setLoadingCommande(false)
     console.log(response.data)
@@ -56,7 +66,7 @@ const HomeService = () => {
     setLoadingCommande(true)
     const response = await axios.put('/api/validerCommande', { idSvr: idSvr }, {
       headers: {
-         Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`
+        Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`
       }
     });
     console.log(response.data)
@@ -74,7 +84,7 @@ const HomeService = () => {
 
 
   useEffect(() => {
-  setNameOfServeur(localStorage.getItem('nameSvr'));
+    setNameOfServeur(localStorage.getItem('nameSvr'));
 
     const getCommand = async () => {
       // setLoadingCommande(true)
@@ -82,7 +92,8 @@ const HomeService = () => {
         idSvr: idSvr
       }, {
         headers: {
-  Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`        }
+          Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`
+        }
       });
       console.log(response.data)
       setCommande(response.data || []);
@@ -97,7 +108,8 @@ const HomeService = () => {
     setLoadingCommande(true)
     const response = await axios.delete(`/api/Commande/${idProduit}/${idSvr}`, {
       headers: {
-  Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`      }
+        Authorization: `Bearer ${localStorage.getItem('tokenSvr')}`
+      }
     })
 
     console.log(response.data)
@@ -109,8 +121,8 @@ const HomeService = () => {
     nav('/LoginSvr')
   }
   return (
-    <> 
-    <h2 className='text-center text-2xl'>bonjour : {nameOfServeur}</h2>
+    <>
+      <h2 className='text-center text-2xl'>bonjour : {nameOfServeur}</h2>
       <div className='flex h-screen'>
 
         <div className='w-1/2 border-4'>
@@ -124,7 +136,7 @@ const HomeService = () => {
               {showAlert && (
 
 
-                <AlertSuccess value=' ✅ la commande est valider'  />
+                <AlertSuccess value=' ✅ la commande est valider' />
 
               )}
 

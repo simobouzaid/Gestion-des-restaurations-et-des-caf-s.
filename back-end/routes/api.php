@@ -16,6 +16,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/commande', [CommandController::class, 'index']);
+Route::middleware('auth:sanctum')->delete('/commande/{id}', [CommandController::class, 'destroyOfAdmin']);
 // Route::middleware('auth:sanctum')->post('/produit', [productController::class, 'store']);
 // Route::middleware('auth:sanctum')->get('/IndexProduct', [productController::class, 'index']);
 route::apiResource('product',productController::class)->middleware('auth:sanctum');
@@ -31,6 +32,7 @@ route::get('/chart',[chartController::class ,'chartHome'])->middleware('auth:san
 
 route::post('/loginSvr',[AuthSvrController::class,'LoginSvr']);
 Route::middleware(App\Http\Middleware\AuthServeurs::class)->group(function () {
+    Route::get('/logOutServeur', [AuthSvrController::class, 'logOutServeur']);
     Route::get('/produits/{idSvr}/{type}', [ServiceController::class, 'getProduit'])->name('produit.show');
     Route::post('/getCommande', [ServiceController::class, 'getCommande'])->name('commande.fetch');
     Route::post('/Commande', [CommandController::class, 'store'])->name('commande.store');

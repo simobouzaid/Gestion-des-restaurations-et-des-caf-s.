@@ -66,4 +66,10 @@ class CommandController extends Controller
         Command::where('produit_id', $id)->where('status', 'nonValider')->where('serveur_id', $serveur->id)->delete();
         return response()->json(['status' => true]);
     }
+    public function destroyOfAdmin($id)
+    {
+      
+        Command::where('id', $id)->delete();
+        return response()->json(['status' => true]);
+    }
 }
